@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kid's Ticket Tracker</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'brush script MT', cursive;
+      background-color: #192a56;
+    }
+
+    #static-border {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #34495e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    }
+
+    h2, .ticket-header {
+      color: white;
+      margin-bottom: 15px;
+      margin-top: 1px;
+      font-size: 2.5em;
+    }
+
+    .button {
+      font-size: 1.5em;
+      color: white;
+      user-select: none;
+      cursor: pointer;
+      background-color: #3498db;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .kid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .kid-buttons button {
+      margin-bottom: 10px;
+      font-size: 2em;
+    }
+
+    .kid-tickets {
+      font-size: 2em;
+      color: #ecf0f1;
+      margin-top: 5px;
+    }
+  </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Your head content including styles -->
+</head>
+<body>
+  <div id="static-border">
+    <div class="kid">
+      <h2 class="ticket-header">Tickets</h2>
+      <p class="kid-tickets"><strong>Dallas:</strong> <span id="kid1Tickets">0</span></p>
+      <div class="kid-buttons">
+        <button class="button" id="removeKid1">-</button>
+        <button class="button" id="addKid1">+</button>
+      </div>
+      <p class="kid-tickets"><strong>Haylee:</strong> <span id="kid2Tickets">0</span></p>
+      <div class="kid-buttons">
+        <button class="button" id="removeKid2">-</button>
+        <button class="button" id="addKid2">+</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+
+    // Your Firebase configuration
+ const firebaseConfig = {
+  apiKey: "AIzaSyBuA_eXn0M167S-1t_4xUNcJQJLXo34iYQ",
+  authDomain: "tickettracker-d9fd0.firebaseapp.com",
+  databaseURL: "https://tickettracker-d9fd0-default-rtdb.firebaseio.com",
+  projectId: "tickettracker-d9fd0",
+  storageBucket: "tickettracker-d9fd0.appspot.com",
+  messagingSenderId: "507068342138",
+  appId: "1:507068342138:web:06753c5907a610e8bb80c3",
+  measurementId: "G-GXPHF1BNXM"
+};
+
+    // Initialize Firebase
+    const firebaseApp = initializeApp(firebaseConfig);
+    const db = getDatabase(firebaseApp);
+
+    // Ticket counts for each kid
+    let kid1Tickets = 0;
+    let kid2Tickets = 0;
+
+    // Function to add a ticket for a specific kid
+    function addTicket(kid) {
+      if (kid === 'kid1') {
+        kid1Tickets++;
+        updateTicketCount('kid1', kid1Tickets);
+      } else if (kid === 'kid2') {
+        kid2Tickets++;
+        updateTicketCount('kid2', kid2Tickets);
+      }
+    }
+
+    // Function to remove a ticket for a specific kid
+    function removeTicket(kid) {
+      if (kid === 'kid1' && kid1Tickets > 0) {
+        kid1Tickets--;
+        updateTicketCount('kid1', kid1Tickets);
+      } else if (kid === 'kid2' && kid2Tickets > 0) {
+        kid2Tickets--;
+        updateTicketCount('kid2', kid2Tickets);
+      }
+    }
+
+    // Function to update ticket count in the database
+    function updateTicketCount(kid, count) {
+      // Update the database with the new ticket count for the specified kid
+      set(ref(db, kid), count);
+    }
+
+    // Listen for changes in the database and update the UI accordingly
+    onValue(ref(db, 'kid1'), (snapshot) => {
+      kid1Tickets = snapshot.val();
+      document.getElementById('kid1Tickets').textContent = kid1Tickets;
+    });
+
+    onValue(ref(db, 'kid2'), (snapshot) => {
+      kid2Tickets = snapshot.val();
+      document.getElementById('kid2Tickets').textContent = kid2Tickets;
+    });
+
+    // Add event listeners for the buttons
+    document.getElementById('removeKid1').addEventListener('click', () => removeTicket('kid1'));
+    document.getElementById('addKid1').addEventListener('click', () => addTicket('kid1'));
+    document.getElementById('removeKid2').addEventListener('click', () => removeTicket('kid2'));
+    document.getElementById('addKid2').addEventListener('click', () => addTicket('kid2'));
+  </script>
+</body>
+</html>
