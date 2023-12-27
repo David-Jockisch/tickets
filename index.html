@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kid's Ticket Tracker</title>
   <style>
+    
     body {
       display: flex;
       align-items: center;
@@ -17,11 +18,8 @@
       background-color: #30336b00;
     }
 
-    html {
-      min-height: 100vh;
-    }
-
-    #static-border {
+    /*  DISABLED CODE 
+   #static-border {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,13 +28,14 @@
       border-radius: 10px;
       backdrop-filter: blur(8px);
     }
+    */
 
     h2, .ticket-header {
       color: #f1f2f6;
       margin-bottom: 15px;
       margin-top: 1px;
       font-size: 3.6em;
-      text-shadow: 5px 5px 5px black
+      text-shadow: 2px 2px 2px black
     }
 
     .button {
@@ -44,12 +43,12 @@
       color: #f1f2f6;
       user-select: none;
       cursor: pointer;
-      background-color: #3498db;
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
       margin-top: 10px;
     }
+    
 
     .kid {
       display: flex;
@@ -70,7 +69,7 @@
       color: #f1f2f6;
       margin-top: 20px;
       margin-bottom: 0;
-      text-shadow: 5px 5px 5px black
+      text-shadow: 2px 2px 2px black
     }
   </style>
 
@@ -78,13 +77,13 @@
 <body>
   <div id="static-border">
     <div class="kid">
-      <h2 class="ticket-header"><em>Tickets</em></h2>
-      <p class="kid-tickets">Dallas: <span id="kid1Tickets">0</span></p>
+      <h1 class="ticket-header">Tickets</h1>
+      <h2 class="kid-tickets">Dallas: <span id="kid1Tickets">0</span></h2>
       <div class="kid-buttons">
         <button class="button" id="removeKid1">-</button>
         <button class="button" id="addKid1">+</button>
       </div>
-      <p class="kid-tickets">Haylee: <span id="kid2Tickets">0</span></p>
+      <h2 class="kid-tickets">Haylee: <span id="kid2Tickets">0</span></h2>
       <div class="kid-buttons">
         <button class="button" id="removeKid2">-</button>
         <button class="button" id="addKid2">+</button>
